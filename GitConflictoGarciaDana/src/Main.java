@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
+    public static final double IVA=0.16;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
