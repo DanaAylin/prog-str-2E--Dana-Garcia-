@@ -12,6 +12,7 @@ import com.example.demolistview.services.PersonService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class AppControllers {
     @FXML
@@ -36,8 +37,15 @@ public class AppControllers {
     @FXML
     public void initialize(){
         loadFromFile();
+        listView.getSelectionModel().selectedItemProperty().addListener(
+                (obs,oldVal,newVal)->{
+                 loadDataToForm(newVal);
+                }
+        );
+
         listView.setItems(data);
     }
+
 
     @FXML
     public void onReload(){
@@ -75,6 +83,37 @@ public class AppControllers {
 
 
     }
+    @FXML
+    public void onUpdate(){
+        try {
+            String name=txtName.getText();
+            String email=txtEmail.getText();
+            String EdadText=txtEdad.getText();
+
+            int Edad = Integer.parseInt(EdadText);
+            int index =  listView.getSelectionModel().getSelectedIndex();
+            service.updatePerson(index,name, email, Edad);
+            lblMsg.setText("Persona creada con exito");
+            lblMsg.setStyle("-fx-text-fill: green");
+            txtEmail.clear();
+            txtName.clear();
+            txtEdad.clear();
+            loadFromFile();
+        }catch (NumberFormatException e){
+            lblMsg.setText("Hubo un error, la edad debe ser mayor a 18");
+            lblMsg.setStyle("-fx-text-fill: red");
+
+        }catch (IOException e){
+            lblMsg.setText("Hubo un error con el archivo");
+            lblMsg.setStyle("-fx-text-fill: red");
+
+        }catch (IllegalArgumentException e){
+            lblMsg.setText("Hubo un error "+e.getMessage());
+            lblMsg.setStyle("-fx-text-fill: red");
+
+        }
+
+    }
     private void loadFromFile(){
         try{
             List<String> items = service.loadDataForListView();
@@ -87,4 +126,36 @@ public class AppControllers {
         }
 
     }
+    private void loadDataToForm(String data){
+        String[] parts= data.split(" , ");
+        txtName.setText(parts[0]);
+        txtEmail.setText(parts[1]);
+        txtEdad.setText(parts[2]);
+    }
+    @FXML
+    private  void  onDelete(){
+        try {
+            int index=listView.getSelectionModel().getSelectedIndex();
+            service.deletePerson(index);
+
+            lblMsg.setText("Persona creada con exito");
+            lblMsg.setStyle("-fx-text-fill: green");
+            loadFromFile();
+        }catch (NumberFormatException e){
+            lblMsg.setText("Hubo un error, la edad debe ser mayor a 18");
+            lblMsg.setStyle("-fx-text-fill: red");
+
+        }catch (IOException e){
+            lblMsg.setText("Hubo un error con el archivo");
+            lblMsg.setStyle("-fx-text-fill: red");
+
+        }catch (IllegalArgumentException e){
+            lblMsg.setText("Hubo un error "+e.getMessage());
+            lblMsg.setStyle("-fx-text-fill: red");
+
+        }
+
+
+    }
+
 }
