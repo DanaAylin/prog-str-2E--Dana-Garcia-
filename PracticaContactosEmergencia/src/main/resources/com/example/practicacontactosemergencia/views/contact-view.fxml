@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.practicacontactosemergencia.controller.ContactController">
+    <children>
+        <Label layoutX="72.0" layoutY="14.0" text="Lista de contactos de emergencia" />
+        <GridPane layoutX="86.0" layoutY="48.0" prefHeight="91.0" prefWidth="391.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints prefHeight="40.0" />
+                <RowConstraints prefHeight="40.0" />
+                <RowConstraints prefHeight="40.0" />
+            </rowConstraints>
+            <children>
+                <Label text="Nombre" />
+                <TextField fx:id="txtNombre" GridPane.columnIndex="1"/>
+                <Label text="Tel" GridPane.rowIndex="1"/>
+                <TextField fx:id="txtTel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="Parentesco" GridPane.rowIndex="2"/>
+                <ComboBox fx:id="comboParentescos" prefWidth="150.0"
+                          GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </children>
+        </GridPane>
+        <VBox layoutX="56.0" layoutY="153.0" prefHeight="94.0" prefWidth="483.0">
+            <children>
+                <ListView fx:id="listContactos" prefHeight="91.0" prefWidth="505.0" />
+            </children>
+        </VBox>
+        <Button text="Agregar"
+                layoutX="43.0" layoutY="260.0"
+                onAction="#onAddContact"/>
+        <Button text="Actualizar"
+                layoutX="130.0" layoutY="260.0"/>
+        <Button text="Eliminar"
+                layoutX="240.0" layoutY="260.0"/>
+    </children>
+</AnchorPane>
